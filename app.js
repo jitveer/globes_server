@@ -11,8 +11,9 @@ const errorHandler = require("./shared/middlewares/error.middleware");
 const path = require("path");
 const { apiLimiter } = require("./shared/middlewares/rateLimiter.middleware");
 
-app.set("trust proxy", 1);
 const app = express();
+
+app.set("trust proxy", 1);
 
 // Security Middleware
 app.use(
