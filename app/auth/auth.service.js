@@ -1,6 +1,7 @@
 const User = require("../users/user.model");
 const jwt = require("../../shared/utils/jwt.util");
 const { createAdminNotification } = require("../notifications/admin_notification.service");
+const OTP = require("../otp/otp.model");
 
 exports.register = async (userData) => {
   const existingUser = await User.findOne({
@@ -9,7 +10,20 @@ exports.register = async (userData) => {
   if (existingUser) {
     throw new Error("User already exists with this email or phone");
   }
+
+  // Check if OTP is verified for this user
+  const otpVerified = await OTP.findOne({
+    recipient: userData.phone || userData.email,
+    verified: true,
+  });
+
+  if (!otpVerified) {
+    throw new Error("Phone/Email not verified. Please verify OTP first.");
+  }
   const user = await User.create(userData);
+
+  // Clear OTP after successful registration
+  await OTP.deleteOne({ _id: otpVerified._id });
 
   // Send notification to admin
   await createAdminNotification({

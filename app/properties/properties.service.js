@@ -63,7 +63,7 @@ class PropertyService {
   async createProperty(data) {
     const property = await Property.create(data);
 
-    // Automation: Notify all users about naya property launch!
+    // Automation: Notify all users about new property launch!
     try {
       await sendUserNotification({
         title: "New Property Launch!",
@@ -72,7 +72,9 @@ class PropertyService {
         targetType: "all",
         image:
           property.images && property.images.length > 0
-            ? property.images[0]
+            ? typeof property.images[0] === "string"
+              ? property.images[0]
+              : property.images[0]?.webp || ""
             : "",
         link: `/properties/${property._id}`,
       });

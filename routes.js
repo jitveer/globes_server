@@ -13,6 +13,7 @@ const wishlistRoutes = require("./app/wishlist/wishlist.routes");
 const scheduleVisitRoutes = require("./app/schedule_visit/scheduleVisit.routes");
 const adminNotificationRoutes = require("./app/notifications/admin_notification.routes");
 const userNotificationRoutes = require("./app/user_notifications/user_notification.routes");
+const otpRoutes = require("./app/otp/otp.routes");
 
 // Mount routes
 router.use("/auth", authRoutes);
@@ -26,5 +27,6 @@ router.use("/wishlist", wishlistRoutes);
 router.use("/schedule-visit", scheduleVisitRoutes);
 router.use("/admin-notifications", adminNotificationRoutes);
 router.use("/user-notifications", userNotificationRoutes);
+router.use("/otp", otpRoutes);
 
 module.exports = router;

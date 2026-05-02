@@ -83,7 +83,7 @@ const propertySchema = new mongoose.Schema(
       type: String,
       required: [true, "Property description is required"],
     },
-    images: [String],
+    images: [mongoose.Schema.Types.Mixed],
     plans: [planSchema],
     features: [featureSchema],
     amenities: [amenitySchema],

@@ -71,7 +71,18 @@ app.use(xss);
 app.use(compression());
 
 // Static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"), {
+    maxAge: "1y", // caching
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, path) => {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    },
+  }),
+);
 
 //logging
 if (process.env.NODE_ENV === "development") {
